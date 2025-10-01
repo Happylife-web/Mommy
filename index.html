@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesbian Sugar Mom & Baby Connect</title>
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #fdf6fb;
+    color: #333;
+  }
+  header {
+    background-color: #d77fb5;
+    color: white;
+    padding: 20px;
+    text-align: center;
+  }
+  nav a {
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  .hero {
+    text-align: center;
+    padding: 60px 20px;
+    background: linear-gradient(rgba(215,127,181,0.7), rgba(215,127,181,0.7)), url('https://images.unsplash.com/photo-1544005313-94ddf0286df2') center/cover no-repeat;
+    color: white;
+  }
+  .hero h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+  }
+  .hero button {
+    padding: 15px 30px;
+    font-size: 1.2em;
+    border: none;
+    border-radius: 8px;
+    background-color: #f48fb1;
+    color: white;
+    cursor: pointer;
+  }
+  .profiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 40px 20px;
+  }
+  .profile-card {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+    text-align: center;
+    padding-bottom: 20px;
+  }
+  .profile-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  .profile-card h3 {
+    margin: 15px 0 5px;
+  }
+  .profile-card p {
+    margin: 0 15px 10px;
+    font-size: 0.9em;
+    color: #555;
+  }
+  .search-bar {
+    text-align: center;
+    margin: 30px 0;
+  }
+  .search-bar input, .search-bar select {
+    padding: 10px;
+    margin: 5px;
+    font-size: 1em;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Lesbian Sugar Mom & Baby Connect</h1>
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Profielen</a>
+    <a href="#">Over Ons</a>
+    <a href="#">Blog</a>
+    <a href="#">Contact</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>Vind je perfecte connectie, veilig en discreet</h1>
+  <button>Word Lid</button>
+</section>
+
+<section class="search-bar">
+  <input type="text" id="searchName" placeholder="Zoek op naam...">
+  <select id="filterAge">
+    <option value="">Alle leeftijden</option>
+    <option value="25-35">25-35</option>
+    <option value="36-45">36-45</option>
+    <option value="46-60">46-60</option>
+  </select>
+  <button onclick="filterProfiles()">Zoek</button>
+</section>
+
+<section class="profiles" id="profilesContainer">
+  <div class="profile-card" data-name="Lotte" data-age="28">
+    <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1" alt="Lotte">
+    <h3>Lotte</h3>
+    <p>Leeftijd: 28</p>
+    <p>Interesses: Reizen, Diner, Wellness</p>
+  </div>
+  <div class="profile-card" data-name="Sanne" data-age="35">
+    <img src="https://images.unsplash.com/photo-1520813792240-56fc4a3765a7" alt="Sanne">
+    <h3>Sanne</h3>
+    <p>Leeftijd: 35</p>
+    <p>Interesses: Kunst, Muziek, Fitness</p>
+  </div>
+  <div class="profile-card" data-name="Emma" data-age="42">
+    <img src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d" alt="Emma">
+    <h3>Emma</h3>
+    <p>Leeftijd: 42</p>
+    <p>Interesses: Literatuur, Koken, Yoga</p>
+  </div>
+</section>
+
+<script>
+function filterProfiles() {
+  const nameFilter = document.getElementById('searchName').value.toLowerCase();
+  const ageFilter = document.getElementById('filterAge').value;
+  const profiles = document.querySelectorAll('.profile-card');
+
+  profiles.forEach(profile => {
+    const name = profile.getAttribute('data-name').toLowerCase();
+    const age = parseInt(profile.getAttribute('data-age'));
+
+    let ageMatch = true;
+    if (ageFilter) {
+      const [min, max] = ageFilter.split('-').map(Number);
+      ageMatch = age >= min && age <= max;
+    }
+
+    if (name.includes(nameFilter) && ageMatch) {
+      profile.style.display = 'block';
+    } else {
+      profile.style.display = 'none';
+    }
+  });
+}
+</script>
+
+</body>
+</html>
