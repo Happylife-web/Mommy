@@ -289,5 +289,27 @@ function filterProfiles() {
     });
   </script>
 </body>
+  // Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyCvVQ3tFC2COnoRLTC3V6AXo1_sr-TdZQc",
+  authDomain: "sugar-mommies-lesbians.firebaseapp.com",
+  projectId: "sugar-mommies-lesbians",
+  storageBucket: "sugar-mommies-lesbians.firebasestorage.app",
+  messagingSenderId: "907656942571",
+  appId: "1:907656942571:web:2e049d43927566c236ffae",
+  measurementId: "G-D50EL1B6RN"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 </html>
+
 
