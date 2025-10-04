@@ -159,4 +159,135 @@ function filterProfiles() {
 </script>
 
 </body>
+
+  <!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mommy App</title>
+  <style>
+    body { font-family: system-ui, Arial, sans-serif; max-width: 720px; margin: 40px auto; padding: 0 16px; }
+    form { display: grid; gap: 8px; margin: 16px 0; }
+    input, button { padding: 10px; font-size: 16px; }
+    .card { border: 1px solid #ddd; border-radius: 8px; padding: 16px; }
+    .row { display: flex; gap: 8px; align-items: center; }
+    .hidden { display: none; }
+    .ok { color: #0a7f2e; }
+    .err { color: #b00020; }
+  </style>
+</head>
+<body>
+  <h1>Mommy App</h1>
+
+  <div class="card">
+    <h2>Registreren</h2>
+    <form id="registerForm">
+      <input type="email" id="regEmail" placeholder="Email" required />
+      <input type="password" id="regPassword" placeholder="Wachtwoord (min. 6 tekens)" required />
+      <button type="submit">Account aanmaken</button>
+    </form>
+    <div id="regMsg"></div>
+  </div>
+
+  <div class="card">
+    <h2>Inloggen</h2>
+    <form id="loginForm">
+      <input type="email" id="loginEmail" placeholder="Email" required />
+      <input type="password" id="loginPassword" placeholder="Wachtwoord" required />
+      <button type="submit">Inloggen</button>
+    </form>
+    <div id="loginMsg"></div>
+  </div>
+
+  <div class="card hidden" id="authed">
+    <h2>Welkom <span id="who"></span></h2>
+    <div class="row">
+      <button id="logoutBtn">Uitloggen</button>
+    </div>
+  </div>
+
+  <!-- Plaats je scripts idealiter net voor </body> zodat de pagina eerst laadt -->
+  <script type="module">
+    // 1) Firebase SDK's vanaf gstatic (gebruik de versie die jouw Firebase Console voorstelt)
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } 
+      from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+
+    // 2) CONFIG: vervang onderstaande waarden met je eigen project-config uit Firebase Console
+    const firebaseConfig = {
+      apiKey: "JOUW_API_KEY",
+      authDomain: "JOUW_PROJECT_ID.firebaseapp.com",
+      projectId: "JOUW_PROJECT_ID",
+      storageBucket: "JOUW_PROJECT_ID.appspot.com",
+      messagingSenderId: "JOUW_SENDER_ID",
+      appId: "JOUW_APP_ID"
+    };
+
+    // 3) Init
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Helpers
+    const $ = (s) => document.querySelector(s);
+    const show = (el, visible) => el.classList.toggle('hidden', !visible);
+    const setMsg = (el, text, ok=false) => { el.textContent = text; el.className = ok ? 'ok' : 'err'; };
+
+    // UI refs
+    const regForm = $('#registerForm');
+    const regMsg  = $('#regMsg');
+    const loginForm = $('#loginForm');
+    const loginMsg  = $('#loginMsg');
+    const authedBox = $('#authed');
+    const whoSpan   = $('#who');
+    const logoutBtn = $('#logoutBtn');
+
+    // Auth state listener
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        whoSpan.textContent = user.email || 'gebruiker';
+        show(authedBox, true);
+        setMsg(loginMsg, 'Succesvol ingelogd.', true);
+      } else {
+        show(authedBox, false);
+      }
+    });
+
+    // Registreren
+    regForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      setMsg(regMsg, '');
+      const email = $('#regEmail').value.trim();
+      const password = $('#regPassword').value;
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        setMsg(regMsg, 'Account aangemaakt. Je bent nu ingelogd.', true);
+        regForm.reset();
+      } catch (err) {
+        setMsg(regMsg, err.message || 'Er ging iets mis.');
+      }
+    });
+
+    // Inloggen
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      setMsg(loginMsg, '');
+      const email = $('#loginEmail').value.trim();
+      const password = $('#loginPassword').value;
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        setMsg(loginMsg, 'Ingelogd!', true);
+        loginForm.reset();
+      } catch (err) {
+        setMsg(loginMsg, err.message || 'Login mislukt.');
+      }
+    });
+
+    // Uitloggen
+    logoutBtn.addEventListener('click', async () => {
+      await signOut(auth);
+    });
+  </script>
+</body>
 </html>
+
