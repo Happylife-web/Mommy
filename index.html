@@ -288,8 +288,32 @@ function filterProfiles() {
       await signOut(auth);
     });
   </script>
+  <!-- Firebase scripts -->
+<script src="https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.0.0/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.0.0/firebase-database.js"></script>
+
+<script>
+  // Jouw Firebase-configuratie
+  const firebaseConfig = {
+    apiKey: "AIzaSyCvVQ3tFC2COnoRLTC3V6AXo1_sr-TdZQc",
+    authDomain: "sugar-mommies-lesbians.firebaseapp.com",
+    projectId: "sugar-mommies-lesbians",
+    storageBucket: "sugar-mommies-lesbians.firebasestorage.app",
+    messagingSenderId: "907656942571",
+    appId: "1:907656942571:web:2e049d43927566c236ffae",
+    measurementId: "G-D50EL1B6RN"
+  };
+
+  // Initialiseer Firebase
+  const app = firebase.initializeApp(firebaseConfig);
+  const analytics = firebase.analytics();
+</script>
+
 </body>
 </html>
+
 
 
 
